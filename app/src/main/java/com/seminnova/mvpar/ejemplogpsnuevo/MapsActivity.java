@@ -126,7 +126,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
                 if (marker.getTitle().equals("Monu1")){
-                    Toast.makeText(getApplicationContext(),marker.getSnippet(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),marker.getSnippet(),Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content_frame, new PruebaFragment())
+                            .commit();
                 } else if (marker.getTitle().equals("Monu2")) {
                     Toast.makeText(getApplicationContext(), marker.getSnippet(), Toast.LENGTH_SHORT).show();
                 } else if (marker.getTitle().equals("Monu3")) {
@@ -143,8 +146,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
-
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -239,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (location != null) {
             lat = location.getLatitude();
             lon = location.getLongitude();
-            Toast.makeText(getApplicationContext(), "Latitud: " + lat + "Longitud: " + lon, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Latitud: " + lat + "Longitud: " + lon, Toast.LENGTH_SHORT).show();
             agregarMarcador(lat, lon);
         }
     }
