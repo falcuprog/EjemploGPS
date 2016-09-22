@@ -38,7 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<LocationSettingsResult>, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<LocationSettingsResult> {
 
     private GoogleMap mMap;
 
@@ -83,8 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
-        googleMap.setOnMarkerClickListener(this);
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -101,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (int i = 0; i < ls.size(); i++){
             LatLng coordenadas = new LatLng(ls.get(i).getLat(), ls.get(i).getLon());
-            mMap.addMarker(new MarkerOptions().position(coordenadas).title(ls.get(i).getNombre()));
+            crearMarcador(coordenadas, ls.get(i).getNombre());
         }
 
 
@@ -114,7 +112,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         /***/
 
+    }
 
+    public void crearMarcador(LatLng location, String titulo) {
+//        mMap.clear();
+        mMap.addMarker(new MarkerOptions()
+                .position(location)
+                .title(titulo)
+                .snippet(titulo));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14.0f));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (marker.getTitle().equals("Monu1")){
+                    Toast.makeText(getApplicationContext(),marker.getSnippet(),Toast.LENGTH_SHORT).show();
+                } else if (marker.getTitle().equals("Monu2")) {
+                    Toast.makeText(getApplicationContext(), marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                } else if (marker.getTitle().equals("Monu3")) {
+                    Toast.makeText(getApplicationContext(), marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                } else if (marker.getTitle().equals("Monu4")) {
+                    Toast.makeText(getApplicationContext(), marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                } else if (marker.getTitle().equals("Monu5")) {
+                    Toast.makeText(getApplicationContext(), marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Click en un marcador", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -206,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(coordenadas)
                 .title("Aquí estoy")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-        mMap.animateCamera(miUbicacion);
+        //mMap.animateCamera(miUbicacion);
     }
 
     private void actualizarUbicacion(Location location) {
@@ -287,10 +313,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        Toast.makeText(this, marker.getTag().toString(), Toast.LENGTH_SHORT).show();
-        return true;
-    }
 }
 
