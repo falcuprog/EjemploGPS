@@ -14,10 +14,10 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -139,6 +139,8 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback, GoogleA
         String distancia;
         Location puntoDestino;
 
+        TextView textView = (TextView) getView().findViewById(R.id.txtPrueba);
+
         for (int i = 0; i < ls.size(); i++){
 
             puntoDestino = new Location(ls.get(i).getNombre());
@@ -146,6 +148,8 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback, GoogleA
             puntoDestino.setLongitude(ls.get(i).getLon());
 
             distancia = getDistance(miUbicacion.getLatitude(), miUbicacion.getLongitude(), puntoDestino.getLatitude(), puntoDestino.getLongitude());
+
+            Toast.makeText(getContext(), "Lat: " + miUbicacion.getLatitude() + " Lon: " + miUbicacion.getLongitude(), Toast.LENGTH_SHORT).show();
 
             if (miUbicacion!=null)
                 Toast.makeText(getContext(), "Distancia hasta: " + ls.get(i).getNombre() + " ** " + distancia + " **", Toast.LENGTH_SHORT).show();
@@ -320,10 +324,8 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback, GoogleA
             lat = location.getLatitude();
             lon = location.getLongitude();
             //Toast.makeText(getContext(), "Latitud: " + lat + "Longitud: " + lon, Toast.LENGTH_SHORT).show();
-            Log.d("MIUBICACION: " , lat + "");
-            Log.d("MIUBICACION: " , lon + "");
-            this.miUbicacion.setLatitude(10.4598546);
-            this.miUbicacion.setLongitude(-73.2467258);
+            this.miUbicacion.setLatitude(lat);
+            this.miUbicacion.setLongitude(lon);
             agregarMarcador(lat, lon);
         }
     }
